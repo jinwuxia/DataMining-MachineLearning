@@ -3,12 +3,20 @@ This is a complete python program whose function is KNN.
 KNN, K-nearest Neighbours,  is one of the most common classfication algorithms in machine learning.
 This program comes from:
 	 http://machinelearningmastery.com/tutorial-to-implement-k-nearest-neighbors-in-python-from-scratch/ 
+
+
+function: automatic divide data into trainning set and test set;
+          output classification result and accuracy
+USAGE:
+     python knn.py [datafile.csv]  [K-knn argv]  [featureCount]
+
 """
 
 import csv
 import random 
 import math
 import operator
+import os, sys
 
 def loadDataset(filename, featureCount, split,trainingSet=[], testSet=[]):
 	with open(filename, 'rb') as csvfile:
@@ -27,6 +35,7 @@ def loadDataset(filename, featureCount, split,trainingSet=[], testSet=[]):
 def euclideanDistance(instance1, instance2, length):
 	distance = 0
 	for x in range(length):
+                #print instance1, "   ",instance2
 		distance += pow(instance2[x]-instance1[x], 2)
 	distance = math.sqrt(distance)
 	return distance
@@ -65,12 +74,19 @@ def getAccuracy(testSet, prediction):
 
 
 def main():
-	trainingSet = []
+        usage = "USAGE: python knn.py datafile.csv K[knn argv] featureCount"
+        if len(sys.argv) != 4:
+            print "Error parameter!  ", usage
+            return 1
+        datafile = sys.argv[1]
+        k = int(sys.argv[2])
+        feature = int(sys.argv[3])
+
+        trainingSet = []
 	testSet= []
 	predictions = []
-	feature = 4
 	split= 0.66
-	loadDataset('iris.data.txt', feature, split, trainingSet, testSet)
+	loadDataset(datafile, feature, split, trainingSet, testSet)
 	print 'Train: ' + repr(len(trainingSet))
 	print 'Test: ' + repr(len(testSet))
 	
