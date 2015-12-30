@@ -1,3 +1,5 @@
+refer to http://stanford.edu/~cpiech/cs221/handouts/kmeans.html
+         http://blog.csdn.net/zouxy09/article/details/17589329
 alogithm idea:
 	 random choose K centers
 	 compute K clusters(the record belong to a cluster whose center is nearest from this recod)
