@@ -1,0 +1,10 @@
+alogithm idea:
+	 random choose K centers
+	 compute K clusters(the record belong to a cluster whose center is nearest from this recod)
+	 
+	 while(not convergence)  # in default, iteration is 10000 times 
+		update K centers
+		update K clusters
+		
+     
+	 output cluster result
