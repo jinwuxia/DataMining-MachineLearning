@@ -22,7 +22,7 @@ def loadDataset(filename, featureCount, split,trainingSet=[], testSet=[]):
 	with open(filename, 'rb') as csvfile:
 		lines = csv.reader(csvfile)
 		dataset = list(lines)
-		for x in range(len(dataset)-1):
+		for x in range(len(dataset)):
 			for y in range(featureCount):
 				dataset[x][y] = float(dataset[x][y])
 			if random.random() < split:
@@ -40,9 +40,8 @@ def euclideanDistance(instance1, instance2, length):
 	distance = math.sqrt(distance)
 	return distance
 
-def getKNeighbors(trainingSet, testInstance, k):
+def getKNeighbors(trainingSet, testInstance, k, featureCount):
 	distances=[]
-	featureCount = len(testInstance)-1
 	for  x in range(len(trainingSet)):
 		dist = euclideanDistance(trainingSet[x], testInstance, featureCount)
 		distances.append((trainingSet[x], dist))
@@ -80,19 +79,19 @@ def main():
             return 1
         datafile = sys.argv[1]
         k = int(sys.argv[2])
-        feature = int(sys.argv[3])
+        featureCount = int(sys.argv[3])
 
         trainingSet = []
 	testSet= []
 	predictions = []
 	split= 0.66
-	loadDataset(datafile, feature, split, trainingSet, testSet)
+	loadDataset(datafile, featureCount, split, trainingSet, testSet)
 	print 'Train: ' + repr(len(trainingSet))
 	print 'Test: ' + repr(len(testSet))
 	
 	k = 3
 	for x in range(len(testSet)):
-		neighbors = getKNeighbors(trainingSet, testSet[x], k)
+		neighbors = getKNeighbors(trainingSet, testSet[x], k, featureCount)
 		response = getResponse(neighbors)
 		print 'predicted =', response, ',  actual=', testSet[x][-1]
 		predictions.append(response)

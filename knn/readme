@@ -1,0 +1,7 @@
+algorithm idea：
+	for each test record, compute the distance from all training records.
+	sort above distance;
+	If in the topk nearest neighbours, most neighbours belong to A.
+	Then this new test record belong to class A.
+	
+
