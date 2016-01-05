@@ -64,13 +64,35 @@ def getResponse(neighbors):
 	return sortedVotes[0][0]
 
 
+#compute the total accuracy Rate
 def getAccuracy(testSet, prediction):
-	correct = 0
+        correct = 0
 	for x in range(len(testSet)):
 		if testSet[x][-1] == prediction[x]:
 			correct+=1
 	return correct/float(len(testSet)) * 100
 
+#compute the Precison, recall, F-measure
+def getP_R_F(testSet, prediction):
+        A = 0
+        A_B = 0
+        A_C = 0
+        for x in range(len(testSet)):
+            eachPre = int(prediction[x])
+            eachClass= int(testSet[x][-1])
+            if eachPre == 1 and eachClass == eachPre:
+                A += 1
+            if eachPre == 1:
+                A_B += 1
+            if eachClass == 1:
+                A_C += 1
+        #print A," ",A_B," ", A_C
+        if A == 0:
+            return 0, 0, 0
+        precison = A /float(A_B) * 100
+        recall = A / float(A_C) * 100
+        F = 2*precison*recall /(precison + recall)
+        return precison, recall, F 
 
 def main():
         usage = "USAGE: python knn.py datafile.csv K[knn argv] featureCount"
@@ -93,9 +115,13 @@ def main():
 	for x in range(len(testSet)):
 		neighbors = getKNeighbors(trainingSet, testSet[x], k, featureCount)
 		response = getResponse(neighbors)
-		print 'predicted =', response, ',  actual=', testSet[x][-1]
+		#print 'predicted =', response, ',  actual=', testSet[x][-1]
 		predictions.append(response)
 	accuracy = getAccuracy(testSet, predictions)
-	print "Accuracy: ", accuracy
+        #(P, R , F) = getP_R_F(testSet, predictions)
+        print "Accuracy=    ", accuracy
+        #print "Precison=    ", P
+        #print "Recall=  ", R
+        #print "F-measure=   ", F
 
 main()
